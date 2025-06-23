@@ -75,7 +75,7 @@ const ThreeBackground = () => {
     // Animation
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
-      group.rotation.y += 0.002;
+      group.rotation.y += 0.003;
       renderer.render(scene, camera);
     };
 

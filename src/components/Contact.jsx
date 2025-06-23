@@ -54,9 +54,8 @@ const Contact = () => {
             <div>
               <h3 className="text-2xl font-light mb-6 tracking-tight">Get In Touch</h3>
               <p className="text-gray-600 leading-relaxed mb-8">
-                I'm currently open to new opportunities in both software development and real estate sectors. 
-                Whether you're looking for a developer who understands real estate or a real estate professional 
-                with strong technical skills, I'd love to hear from you.
+               I'm always interested in meaningful conversations around software development, real estate, or where the two meet. 
+               Whether it's about exchanging ideas, collaborating on a project, or exploring synergies — feel free to reach out.
               </p>
             </div>
             

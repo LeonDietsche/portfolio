@@ -23,13 +23,13 @@ const About = () => {
         >
           <div className="space-y-6">
             <p className="text-lg text-gray-700 leading-relaxed">
-              I am a passionate software developer with a unique blend of technical expertise and real estate knowledge. Currently working as a Software Developer at Arvato Financial Solutions, I bring over 4 years of professional experience in full-stack development.
+              I’m a passionate software developer with a unique combination of technical expertise and real estate insight. Currently working at Arvato Financial Solutions, I bring over four years of hands-on experience in full-stack development.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
-              My journey bridges software engineering with a growing focus on real estate. Having completed my foundational degree as a Sachbearbeiter Immobilienbewirtschaftung at KV Business School Zürich, I’m now actively expanding my expertise in property management and the real estate sector.
+              My professional journey bridges software engineering and real estate. After completing my degree as a Sachbearbeiter Immobilienbewirtschaftung at KV Business School Zürich, I’ve been deepening my knowledge in property management while actively exploring ways to integrate digital solutions into the real estate sector.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
-              I thrive in creating efficient, scalable applications and have a particular interest in developing innovative solutions that bridge the gap between technology and real estate operations.
+              I’m driven by building efficient, scalable applications and enjoy creating innovative tools that connect technology with real-world operations – especially in the context of real estate and finance.
             </p>
           </div>
           
@@ -46,7 +46,7 @@ const About = () => {
               </div>
               <div className="flex justify-between items-center border-b border-gray-100 pb-2">
                 <span className="text-gray-600">Specialization</span>
-                <span className="font-medium">Full-Stack Development</span>
+                <span className="font-medium">Full-Stack Dev</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-gray-600">Focus</span>

@@ -91,8 +91,7 @@ const Education = () => {
             <h3 className="text-2xl font-light mb-4 tracking-tight">Unique Combination</h3>
             <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto">
               My educational background uniquely positions me at the intersection of technology and real estate. 
-              This dual expertise allows me to understand both the technical implementation and business requirements 
-              of modern real estate solutions, making me valuable for roles that require bridging these domains.
+              This dual expertise enables me to deeply understand both the technical implementation and the operational needs of modern real estate processes, allowing for smarter and more integrated solutions.
             </p>
           </div>
         </motion.div>
