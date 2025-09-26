@@ -11,7 +11,7 @@ const Skills = () => {
   ];
 
   const technologies = [
-    'React / Vue.js', 'Node.js', 'REST APIs', 'Git', 'Visual Studio', 
+    'React / Vue.js', 'Node.js', 'Docker / Kubernetes', 'Git', 'Visual Studio', 
     'Database Integration', 'Property Management Systems', 'Market Analysis'
   ];
 
