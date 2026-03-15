@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Send } from 'lucide-react';
 
-const Contact = () => {
+const Contact = ({ contact }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,9 +19,8 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Create mailto link
     const mailtoLink = `mailto:dietscheleon@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+      `${contact.form.name}: ${formData.name}\n${contact.form.email}: ${formData.email}\n\n${contact.form.message}:\n${formData.message}`
     )}`;
     window.location.href = mailtoLink;
   };
@@ -36,14 +35,13 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-light mb-8 tracking-tight">Contact</h2>
+          <h2 className="text-4xl lg:text-5xl font-light mb-8 tracking-tight">{contact.title}</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Let's discuss how my unique combination of technical skills and real estate expertise can benefit your organization
+            {contact.intro}
           </p>
         </motion.div>
-        
+
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,46 +50,40 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-light mb-6 tracking-tight">Get In Touch</h3>
-              <p className="text-gray-600 leading-relaxed mb-8">
-               I'm always interested in meaningful conversations around software development, real estate, or where the two meet. 
-               Whether it's about exchanging ideas, collaborating on a project, or exploring synergies — feel free to reach out.
-              </p>
+              <h3 className="text-2xl font-light mb-6 tracking-tight">{contact.touchTitle}</h3>
+              <p className="text-gray-600 leading-relaxed mb-8">{contact.touchText}</p>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="mr-4 text-gray-600" size={20} />
                 <div>
-                  <p className="font-medium">Email</p>
+                  <p className="font-medium">{contact.emailLabel}</p>
                   <a href="mailto:dietscheleon@gmail.com" className="text-gray-600 hover:text-black transition-colors">
                     dietscheleon@gmail.com
                   </a>
                 </div>
               </div>
-              
+
               <div className="flex items-center">
                 <MapPin className="mr-4 text-gray-600" size={20} />
                 <div>
-                  <p className="font-medium">Location</p>
-                  <p className="text-gray-600">Zürich, Switzerland</p>
+                  <p className="font-medium">{contact.locationLabel}</p>
+                  <p className="text-gray-600">{contact.locationValue}</p>
                 </div>
               </div>
             </div>
-            
+
             <div className="pt-8 border-t border-gray-200">
-              <h4 className="font-medium mb-4">Areas of Interest</h4>
+              <h4 className="font-medium mb-4">{contact.interestTitle}</h4>
               <ul className="space-y-2 text-sm text-gray-600">
-                <li>• Software Development Positions</li>
-                <li>• Real Estate Technology Solutions</li>
-                <li>• Property Management Systems</li>
-                <li>• Full-Stack Development Roles</li>
-                <li>• Real Estate Operations</li>
+                {contact.interests.map((interest) => (
+                  <li key={interest}>- {interest}</li>
+                ))}
               </ul>
             </div>
           </motion.div>
-          
-          {/* Contact Form */}
+
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -101,7 +93,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Name
+                  {contact.form.name}
                 </label>
                 <input
                   type="text"
@@ -113,10 +105,10 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
+                  {contact.form.email}
                 </label>
                 <input
                   type="email"
@@ -128,10 +120,10 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
+                  {contact.form.subject}
                 </label>
                 <input
                   type="text"
@@ -143,10 +135,10 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all"
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                  {contact.form.message}
                 </label>
                 <textarea
                   id="message"
@@ -158,13 +150,13 @@ const Contact = () => {
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all resize-none"
                 />
               </div>
-              
+
               <button
                 type="submit"
                 className="w-full bg-black text-white py-3 px-6 hover:bg-gray-800 transition-colors flex items-center justify-center font-medium"
               >
                 <Send className="mr-2" size={18} />
-                Send Message
+                {contact.form.submit}
               </button>
             </form>
           </motion.div>
@@ -175,4 +167,3 @@ const Contact = () => {
 };
 
 export default Contact;
-
