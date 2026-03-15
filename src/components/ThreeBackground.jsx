@@ -4,43 +4,61 @@ import * as THREE from 'three';
 const ThreeBackground = () => {
   const mountRef = useRef(null);
   const animationIdRef = useRef(null);
-  const [useStaticBackground, setUseStaticBackground] = useState(false);
+  const lastFrameTimeRef = useRef(0);
+  const [renderMode, setRenderMode] = useState('desktop');
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce)');
-    const updateBackgroundMode = () => setUseStaticBackground(mediaQuery.matches);
+    const mobileQuery = window.matchMedia('(max-width: 768px), (pointer: coarse)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateBackgroundMode = () => {
+      if (reducedMotionQuery.matches) {
+        setRenderMode('static');
+        return;
+      }
+
+      setRenderMode(mobileQuery.matches ? 'mobile' : 'desktop');
+    };
 
     updateBackgroundMode();
 
-    if (typeof mediaQuery.addEventListener === 'function') {
-      mediaQuery.addEventListener('change', updateBackgroundMode);
-      return () => mediaQuery.removeEventListener('change', updateBackgroundMode);
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', updateBackgroundMode);
+      reducedMotionQuery.addEventListener('change', updateBackgroundMode);
+      return () => {
+        mobileQuery.removeEventListener('change', updateBackgroundMode);
+        reducedMotionQuery.removeEventListener('change', updateBackgroundMode);
+      };
     }
 
-    mediaQuery.addListener(updateBackgroundMode);
-    return () => mediaQuery.removeListener(updateBackgroundMode);
+    mobileQuery.addListener(updateBackgroundMode);
+    reducedMotionQuery.addListener(updateBackgroundMode);
+    return () => {
+      mobileQuery.removeListener(updateBackgroundMode);
+      reducedMotionQuery.removeListener(updateBackgroundMode);
+    };
   }, []);
 
   useEffect(() => {
-    if (useStaticBackground) {
+    if (renderMode === 'static') {
       return undefined;
     }
 
     const mount = mountRef.current;
     if (!mount) return;
+    const isMobile = renderMode === 'mobile';
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 1000
     );
-    camera.position.z = 20;
+    camera.position.z = isMobile ? 21 : 20;
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
-      powerPreference: 'high-performance',
+      powerPreference: isMobile ? 'default' : 'high-performance',
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.75 : 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
@@ -48,7 +66,7 @@ const ThreeBackground = () => {
     // Group to hold DNA structure
     const group = new THREE.Group();
 
-    const numPoints = 100;
+    const numPoints = isMobile ? 84 : 100;
     const radius = 2;
     const height = 20;
     const turns = 4;
@@ -95,16 +113,29 @@ const ThreeBackground = () => {
 
     scene.add(group);
 
-    const animate = () => {
+    const animate = (time = 0) => {
       animationIdRef.current = requestAnimationFrame(animate);
-      group.rotation.y += 0.003;
+
+      if (document.hidden) {
+        return;
+      }
+
+      if (isMobile) {
+        const frameInterval = 1000 / 36;
+        if (time - lastFrameTimeRef.current < frameInterval) {
+          return;
+        }
+        lastFrameTimeRef.current = time;
+      }
+
+      group.rotation.y += isMobile ? 0.0024 : 0.003;
       renderer.render(scene, camera);
     };
 
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.75 : 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
@@ -121,7 +152,7 @@ const ThreeBackground = () => {
       }
       renderer.dispose();
     };
-  }, [useStaticBackground]);
+  }, [renderMode]);
 
   return (
     <div
@@ -129,7 +160,7 @@ const ThreeBackground = () => {
       className="fixed inset-0 -z-10 pointer-events-none"
       style={{
         zIndex: -1,
-        background: useStaticBackground
+        background: renderMode === 'static'
           ? 'radial-gradient(circle at top, rgba(226, 232, 240, 0.65), transparent 45%), radial-gradient(circle at bottom right, rgba(241, 245, 249, 0.95), rgba(255, 255, 255, 0.98) 55%)'
           : undefined,
       }}
