@@ -1,12 +1,31 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 const ThreeBackground = () => {
   const mountRef = useRef(null);
-  const groupRef = useRef(null);
   const animationIdRef = useRef(null);
+  const [useStaticBackground, setUseStaticBackground] = useState(false);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce)');
+    const updateBackgroundMode = () => setUseStaticBackground(mediaQuery.matches);
+
+    updateBackgroundMode();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateBackgroundMode);
+      return () => mediaQuery.removeEventListener('change', updateBackgroundMode);
+    }
+
+    mediaQuery.addListener(updateBackgroundMode);
+    return () => mediaQuery.removeListener(updateBackgroundMode);
+  }, []);
+
+  useEffect(() => {
+    if (useStaticBackground) {
+      return undefined;
+    }
+
     const mount = mountRef.current;
     if (!mount) return;
 
@@ -16,7 +35,12 @@ const ThreeBackground = () => {
     );
     camera.position.z = 20;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance',
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
@@ -70,9 +94,7 @@ const ThreeBackground = () => {
     group.add(strand2Line);
 
     scene.add(group);
-    groupRef.current = group;
 
-    // Animation
     const animate = () => {
       animationIdRef.current = requestAnimationFrame(animate);
       group.rotation.y += 0.003;
@@ -82,6 +104,7 @@ const ThreeBackground = () => {
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
@@ -98,13 +121,18 @@ const ThreeBackground = () => {
       }
       renderer.dispose();
     };
-  }, []);
+  }, [useStaticBackground]);
 
   return (
     <div
       ref={mountRef}
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ zIndex: -1 }}
+      style={{
+        zIndex: -1,
+        background: useStaticBackground
+          ? 'radial-gradient(circle at top, rgba(226, 232, 240, 0.65), transparent 45%), radial-gradient(circle at bottom right, rgba(241, 245, 249, 0.95), rgba(255, 255, 255, 0.98) 55%)'
+          : undefined,
+      }}
     />
   );
 };

@@ -35,10 +35,14 @@ const Navigation = ({ navigation, locale, onLocaleChange }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const nextScrolled = window.scrollY > 50;
+      setScrolled((currentScrolled) => (
+        currentScrolled === nextScrolled ? currentScrolled : nextScrolled
+      ));
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -53,7 +57,7 @@ const Navigation = ({ navigation, locale, onLocaleChange }) => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/95 shadow-sm backdrop-blur-sm' : 'bg-transparent'
+        scrolled ? 'bg-white/95 shadow-sm md:backdrop-blur-sm' : 'bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
