@@ -15,9 +15,11 @@ const Projects = ({ projects }) => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-light mb-8 tracking-tight">{projects.title}</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {projects.intro}
-          </p>
+          {projects.intro && (
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {projects.intro}
+            </p>
+          )}
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -54,17 +56,19 @@ const Projects = ({ projects }) => {
                   {project.description}
                 </p>
 
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-gray-800">{projects.featuresTitle}:</h4>
-                  <ul className="text-xs text-gray-600 space-y-1">
-                    {project.features.map((feature) => (
-                      <li key={feature} className="flex items-center">
-                        <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {project.features?.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium text-gray-800">{projects.featuresTitle}:</h4>
+                    <ul className="text-xs text-gray-600 space-y-1">
+                      {project.features.map((feature) => (
+                        <li key={feature} className="flex items-center">
+                          <span className="w-1 h-1 bg-gray-400 rounded-full mr-2"></span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">

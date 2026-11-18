@@ -6,7 +6,7 @@ const Footer = ({ footer }) => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center">
           <h3 className="text-2xl font-light mb-4 tracking-tight">Leon Dietsche</h3>
-          <p className="text-gray-400 mb-6">{footer.tagline}</p>
+          {footer.tagline && <p className="text-gray-400 mb-6">{footer.tagline}</p>}
 
           <div className="flex justify-center space-x-8 mb-8">
             <a

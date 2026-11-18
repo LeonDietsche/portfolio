@@ -36,9 +36,11 @@ const Contact = ({ contact }) => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-light mb-8 tracking-tight">{contact.title}</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {contact.intro}
-          </p>
+          {contact.intro && (
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {contact.intro}
+            </p>
+          )}
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12">
@@ -51,7 +53,9 @@ const Contact = ({ contact }) => {
           >
             <div>
               <h3 className="text-2xl font-light mb-6 tracking-tight">{contact.touchTitle}</h3>
-              <p className="text-gray-600 leading-relaxed mb-8">{contact.touchText}</p>
+              {contact.touchText && (
+                <p className="text-gray-600 leading-relaxed mb-8">{contact.touchText}</p>
+              )}
             </div>
 
             <div className="space-y-4">
@@ -74,14 +78,16 @@ const Contact = ({ contact }) => {
               </div>
             </div>
 
-            <div className="pt-8 border-t border-gray-200">
-              <h4 className="font-medium mb-4">{contact.interestTitle}</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                {contact.interests.map((interest) => (
-                  <li key={interest}>- {interest}</li>
-                ))}
-              </ul>
-            </div>
+            {contact.interests?.length > 0 && (
+              <div className="pt-8 border-t border-gray-200">
+                <h4 className="font-medium mb-4">{contact.interestTitle}</h4>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  {contact.interests.map((interest) => (
+                    <li key={interest}>- {interest}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
 
           <motion.div

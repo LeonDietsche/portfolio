@@ -7,92 +7,57 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
-import Blog from './components/Blog';
-import BlogPostPage from './components/BlogPostPage';
 import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Landing from './components/Landing';
 import { siteContent } from './content';
-import { getBlogPostBySlug, getBlogPosts } from './blog';
+
+// Auf true setzen, um Navigation und alle Abschnitte (Profil, Kompetenzen, ...) wieder anzuzeigen.
+const SHOW_FULL_SITE = false;
 
 function App() {
   const [showContent, setShowContent] = useState(false);
   const [locale, setLocale] = useState('de');
-  const [pathname, setPathname] = useState(window.location.pathname);
   const content = siteContent[locale];
-  const blogPosts = getBlogPosts(locale);
-  const blogSlug = pathname.startsWith('/blog/') ? pathname.split('/')[2] : null;
-  const currentBlogPost = blogSlug ? getBlogPostBySlug(blogSlug, locale) : null;
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowContent(true), 2500); // 2 seconds delay
+    const timer = setTimeout(() => setShowContent(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    const handlePopState = () => {
-      setPathname(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const navigateTo = (nextPath) => {
-    if (window.location.pathname === nextPath) {
-      return;
-    }
-
-    window.history.pushState({}, '', nextPath);
-    setPathname(nextPath);
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
-  useEffect(() => {
     document.documentElement.lang = locale;
-    document.title = currentBlogPost ? `${currentBlogPost.title} | Leon Dietsche` : content.meta.title;
+    document.title = content.meta.title;
 
     const description = document.querySelector('meta[name="description"]');
     if (description) {
-      description.setAttribute('content', currentBlogPost?.excerpt ?? content.meta.description);
+      description.setAttribute('content', content.meta.description);
     }
-  }, [content.meta.description, content.meta.title, currentBlogPost, locale]);
+  }, [content.meta.description, content.meta.title, locale]);
 
   return (
     <div className="App">
       <ThreeBackground />
 
-      {showContent && (
-        currentBlogPost || pathname.startsWith('/blog/') ? (
-          <BlogPostPage
-            post={currentBlogPost}
-            blogUi={content.blog}
+      {showContent && !SHOW_FULL_SITE && <Landing subtitle={content.hero.subtitle} />}
+
+      {showContent && SHOW_FULL_SITE && (
+        <>
+          <Navigation
+            navigation={content.navigation}
             locale={locale}
             onLocaleChange={setLocale}
-            onBackHome={() => navigateTo('/')}
           />
-        ) : (
-          <>
-            <Navigation
-              navigation={content.navigation}
-              locale={locale}
-              onLocaleChange={setLocale}
-            />
-            <Hero hero={content.hero} />
-            <About about={content.about} />
-            <Skills skillsContent={content.skills} />
-            <Experience experience={content.experience} />
-            <Projects projects={content.projects} />
-            <Blog
-              blog={content.blog}
-              posts={blogPosts}
-              onOpenPost={(slug) => navigateTo(`/blog/${slug}`)}
-            />
-            <Education education={content.education} />
-            <Contact contact={content.contact} />
-            <Footer footer={content.footer} />
-          </>
-        )
+          <Hero hero={content.hero} />
+          <About about={content.about} />
+          <Skills skillsContent={content.skills} />
+          <Experience experience={content.experience} />
+          <Projects projects={content.projects} />
+          <Education education={content.education} />
+          <Contact contact={content.contact} />
+          <Footer footer={content.footer} />
+        </>
       )}
     </div>
   );

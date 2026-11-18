@@ -14,9 +14,11 @@ const Education = ({ education }) => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-light mb-8 tracking-tight">{education.title}</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {education.intro}
-          </p>
+          {education.intro && (
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {education.intro}
+            </p>
+          )}
         </motion.div>
 
         <div className="space-y-8">
@@ -29,7 +31,7 @@ const Education = ({ education }) => {
               viewport={{ once: true }}
               className={`bg-white p-8 shadow-sm ${item.current ? 'border-l-4 border-black' : ''}`}
             >
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
+              <div className={`flex flex-col md:flex-row md:justify-between md:items-start ${item.focus ? 'mb-6' : ''}`}>
                 <div className="flex-1">
                   <div className="flex items-center mb-2">
                     <GraduationCap className="mr-3 text-gray-600" size={24} />
@@ -54,27 +56,15 @@ const Education = ({ education }) => {
                 </div>
               </div>
 
-              <div className="ml-9">
-                <p className="text-gray-700 leading-relaxed">{item.focus}</p>
-              </div>
+              {item.focus && (
+                <div className="ml-9">
+                  <p className="text-gray-700 leading-relaxed">{item.focus}</p>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="mt-12 text-center"
-        >
-          <div className="bg-white p-8 shadow-sm">
-            <h3 className="text-2xl font-light mb-4 tracking-tight">{education.perspectiveTitle}</h3>
-            <p className="text-gray-600 leading-relaxed max-w-2xl mx-auto">
-              {education.perspectiveText}
-            </p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

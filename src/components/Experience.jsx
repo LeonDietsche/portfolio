@@ -50,7 +50,9 @@ const Experience = ({ experience }) => {
                 </div>
               </div>
 
-              <p className="text-gray-700 mb-4 leading-relaxed">{item.description}</p>
+              {item.description && (
+                <p className="text-gray-700 mb-4 leading-relaxed">{item.description}</p>
+              )}
 
               <div className="flex flex-wrap gap-2">
                 {item.technologies.map((tech) => (
