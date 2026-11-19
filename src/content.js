@@ -1,9 +1,8 @@
 export const siteContent = {
   de: {
     meta: {
-      title: 'Leon Dietsche | Immobilienbewirtschaftung und Softwareentwicklung',
-      description:
-        'Leon Dietsche, St. Gallen. Gründer der Rhealis AG mit Hintergrund in der Softwareentwicklung.'
+      title: 'Leon Dietsche | Immobilien & Software',
+      description: 'Leon Dietsche, Immobilien und Software, St. Gallen.'
     },
     navigation: {
       items: [
@@ -17,7 +16,7 @@ export const siteContent = {
       languageLabel: 'Sprache'
     },
     hero: {
-      subtitle: 'Immobilienbewirtschaftung & Softwareentwicklung',
+      subtitle: 'Immobilien & Software',
       description: 'Gründer der Rhealis AG, St. Gallen',
       primaryCta: 'Profil',
       secondaryCta: 'Kontakt',
@@ -27,8 +26,7 @@ export const siteContent = {
     about: {
       title: 'Profil',
       paragraphs: [
-        'Ich bin Gründer der Rhealis AG in St. Gallen und führe das Unternehmen mit Schwerpunkt Immobilienbewirtschaftung.',
-        'Davor habe ich über fünf Jahre Software entwickelt, zuletzt Finanzsoftware bei Arvato Financial Solutions. Diese Erfahrung bringe ich in die Bewirtschaftung ein: klare Abläufe, saubere Daten und Werkzeuge, die funktionieren.'
+        'Immobilien & Software',
       ],
       factsTitle: 'Kurzprofil',
       facts: [
@@ -173,9 +171,8 @@ export const siteContent = {
   },
   en: {
     meta: {
-      title: 'Leon Dietsche | Real Estate Management and Software Development',
-      description:
-        'Leon Dietsche, St. Gallen. Founder of Rhealis AG with a background in software development.'
+      title: 'Leon Dietsche | Real Estate & Software',
+      description: 'Leon Dietsche, real estate and software, St. Gallen.'
     },
     navigation: {
       items: [
@@ -189,7 +186,7 @@ export const siteContent = {
       languageLabel: 'Language'
     },
     hero: {
-      subtitle: 'Real Estate Management & Software Development',
+      subtitle: 'Real estate and software',
       description: 'Founder of Rhealis AG, St. Gallen',
       primaryCta: 'About',
       secondaryCta: 'Contact',
